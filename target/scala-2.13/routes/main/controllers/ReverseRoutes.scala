@@ -24,9 +24,9 @@ package controllers {
     }
   
     // @LINE:10
-    def hello(): Call = {
+    def hello(name:String): Call = {
       
-      Call("GET", _prefix + { _defaultPrefix } + "hello")
+      Call("GET", _prefix + { _defaultPrefix } + "hello" + play.core.routing.queryString(List(Some(implicitly[play.api.mvc.QueryStringBindable[String]].unbind("name", name)))))
     }
   
     // @LINE:9

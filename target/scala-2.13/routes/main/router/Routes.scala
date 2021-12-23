@@ -43,7 +43,7 @@ class Routes(
     ("""GET""", this.prefix + (if(this.prefix.endsWith("/")) "" else "/") + """explore""", """controllers.HomeController.explore"""),
     ("""GET""", this.prefix + (if(this.prefix.endsWith("/")) "" else "/") + """tutorial""", """controllers.HomeController.tutorial"""),
     ("""GET""", this.prefix + (if(this.prefix.endsWith("/")) "" else "/") + """test""", """controllers.HomeController.test"""),
-    ("""GET""", this.prefix + (if(this.prefix.endsWith("/")) "" else "/") + """hello""", """controllers.HomeController.hello()"""),
+    ("""GET""", this.prefix + (if(this.prefix.endsWith("/")) "" else "/") + """hello""", """controllers.HomeController.hello(name:String)"""),
     ("""GET""", this.prefix + (if(this.prefix.endsWith("/")) "" else "/") + """assets/""" + "$" + """file<.+>""", """controllers.Assets.versioned(path:String = "/public", file:Asset)"""),
     Nil
   ).foldLeft(List.empty[(String,String,String)]) { (s,e) => e.asInstanceOf[Any] match {
@@ -129,12 +129,12 @@ class Routes(
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("hello")))
   )
   private[this] lazy val controllers_HomeController_hello4_invoker = createInvoker(
-    HomeController_1.hello(),
+    HomeController_1.hello(fakeValue[String]),
     play.api.routing.HandlerDef(this.getClass.getClassLoader,
       "router",
       "controllers.HomeController",
       "hello",
-      Nil,
+      Seq(classOf[String]),
       "GET",
       this.prefix + """hello""",
       """""",
@@ -189,8 +189,8 @@ class Routes(
   
     // @LINE:10
     case controllers_HomeController_hello4_route(params@_) =>
-      call { 
-        controllers_HomeController_hello4_invoker.call(HomeController_1.hello())
+      call(params.fromQuery[String]("name", None)) { (name) =>
+        controllers_HomeController_hello4_invoker.call(HomeController_1.hello(name))
       }
   
     // @LINE:14

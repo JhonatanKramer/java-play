@@ -32,8 +32,8 @@ package controllers.javascript {
     def hello: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.HomeController.hello",
       """
-        function() {
-          return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "hello"})
+        function(name0) {
+          return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "hello" + _qS([(""" + implicitly[play.api.mvc.QueryStringBindable[String]].javascriptUnbind + """)("name", name0)])})
         }
       """
     )
